@@ -8,9 +8,11 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "nodemon": "^1.17.5",
+    "prettier": "^1.14.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "react-table": "^6.8.6"
   },
   "scripts": {
     "start": "concurrently --kill-others \"node server\" \"npm run start:react-app\"",

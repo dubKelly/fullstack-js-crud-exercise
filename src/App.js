@@ -1,43 +1,42 @@
 import React from 'react';
+import ReactTable from 'react-table';
+
+import 'react-table/react-table.css';
 
 class App extends React.Component {
-  state = {
-    employees: []
-  }
-  
-  componentWillMount = () => {
-    fetch('http://localhost:8080/api/employees')
-      .then(response => response.json())
-      .then(employees => this.setState({ employees }))
-  }
+	state = {
+		employees: [],
+		columns: []
+	};
 
-  render() {
-    const {
-      employees
-    } = this.state;
+	componentWillMount = () => {
+		fetch('http://localhost:8080/api/employees')
+			.then(response => response.json())
+			.then(employees => {
+				const keys = Object.keys(employees[0]);
+				const columns = keys.map((obj, i) => {
+					return {
+						Header: `${keys[i].charAt(0).toUpperCase()}${keys[i].slice(1)}`,
+						accessor: keys[i]
+					};
+				});
 
-    console.log(this.state);
+				this.setState({ employees, columns });
+			});
+	};
 
-    return (
-      <div className="App">
-        <h1>Plexxis Employees</h1>
-        {
-          employees.map(employee => (
-            <div key={employee.id}>
-              {
-                Object.keys(employee).map(key => 
-                  <span key={key}>
-                    { key }:
-                    { employee[key] } 
-                  </span>
-                )
-              }
-            </div>
-          ))
-        }
-      </div>
-    );
-  }
+	render() {
+		const { employees, columns } = this.state;
+
+		console.log(this.state);
+
+		return (
+			<div className="App">
+				<h1>Plexxis Employees</h1>
+				<ReactTable data={employees} columns={columns} />
+			</div>
+		);
+	}
 }
 
 export default App;
