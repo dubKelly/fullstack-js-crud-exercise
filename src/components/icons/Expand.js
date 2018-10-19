@@ -21,7 +21,7 @@ const Expand = props => {
 	});
 
 	const path = css({
-		fill: _dark
+		fill: !props.nightMode ? _dark : 'white'
 	});
 
 	///////   ///////  ///   //  //////    ///////  ///////

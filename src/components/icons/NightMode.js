@@ -13,7 +13,7 @@ const NightMode = props => {
 	////////////////////////////////////////////////////////
 
 	const component = css({
-		display: !props.nightMode ? 'none' : 'block',
+		display: !props.nightMode ? 'block' : 'none',
 		height: '100%',
 		width: '100%',
 		opacity: '0.5',
@@ -21,7 +21,7 @@ const NightMode = props => {
 	});
 
 	const path = css({
-		fill: _dark
+		fill: !props.nightMode ? _dark : 'white'
 	});
 
 	///////   ///////  ///   //  //////    ///////  ///////

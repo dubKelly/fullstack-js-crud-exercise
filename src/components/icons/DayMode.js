@@ -13,7 +13,7 @@ const DayMode = props => {
 	////////////////////////////////////////////////////////
 
 	const component = css({
-		display: !props.nightMode ? 'block' : 'none',
+		display: !props.nightMode ? 'none' : 'block',
 		height: '100%',
 		width: '100%',
 		opacity: '0.5',
@@ -21,7 +21,7 @@ const DayMode = props => {
 	});
 
 	const path = css({
-		fill: _dark
+		fill: !props.nightMode ? _dark : 'white'
 	});
 
 	///////   ///////  ///   //  //////    ///////  ///////
