@@ -8,6 +8,7 @@
     "cors": "^2.8.4",
     "emotion": "^9.2.12",
     "express": "^4.16.3",
+    "match-sorter": "^2.3.0",
     "nodemon": "^1.17.5",
     "prettier": "^1.14.3",
     "react": "^16.4.1",

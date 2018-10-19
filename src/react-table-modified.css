@@ -58,11 +58,11 @@
 }
 .ReactTable .rt-thead.-filters input,
 .ReactTable .rt-thead.-filters select {
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	background: #fff;
+	border: none;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	background: transparent;
 	padding: 5px 7px;
 	font-size: inherit;
-	border-radius: 3px;
 	font-weight: normal;
 	outline: none;
 }
@@ -276,20 +276,21 @@
 	display: flex;
 	-webkit-box-pack: justify;
 	-ms-flex-pack: justify;
-	justify-content: space-between;
-	-webkit-box-align: stretch;
-	-ms-flex-align: stretch;
-	align-items: stretch;
+	justify-content: flex-end;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 	padding: 3px;
+	margin: 30px 0 0 0;
 	/* box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1); */
 	/* border-top: 2px solid rgba(0, 0, 0, 0.1); */
 }
 .ReactTable .-pagination input,
 .ReactTable .-pagination select {
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	background: #fff;
+	border: none;
+	background: transparent;
 	padding: 5px 7px;
 	font-size: inherit;
 	border-radius: 3px;
@@ -307,9 +308,9 @@
 	border-radius: 3px;
 	padding: 6px;
 	font-size: 1em;
-	color: rgba(0, 0, 0, 0.6);
-	background: rgba(0, 0, 0, 0.1);
-	transition: all 0.1s ease;
+	color: #8c979a;
+	background: transparent;
+	transition: all 0.3s ease;
 	cursor: pointer;
 	outline: none;
 }
@@ -318,20 +319,19 @@
 	cursor: default;
 }
 .ReactTable .-pagination .-btn:not([disabled]):hover {
-	background: rgba(0, 0, 0, 0.3);
-	color: #fff;
+	color: #17252a;
 }
 .ReactTable .-pagination .-previous,
 .ReactTable .-pagination .-next {
-	-webkit-box-flex: 1;
+	/* -webkit-box-flex: 1;
 	-ms-flex: 1;
-	flex: 1;
+	flex: 1; */
 	text-align: center;
 }
 .ReactTable .-pagination .-center {
-	-webkit-box-flex: 1.5;
+	/* -webkit-box-flex: 1.5;
 	-ms-flex: 1.5;
-	flex: 1.5;
+	flex: 1.5; */
 	text-align: center;
 	margin-bottom: 0;
 	display: -webkit-box;
@@ -350,7 +350,7 @@
 	justify-content: space-around;
 }
 .ReactTable .-pagination .-pageInfo {
-	display: inline-block;
+	display: none;
 	margin: 3px 10px;
 	white-space: nowrap;
 }
@@ -358,8 +358,12 @@
 	display: inline-block;
 }
 .ReactTable .-pagination .-pageJump input {
-	width: 70px;
-	text-align: center;
+	padding: 5px 0;
+	width: 45px;
+	text-align: right;
+}
+.ReactTable .-pagination span.-totalPages {
+	margin: 0 0 0 15px;
 }
 .ReactTable .-pagination .-pageSizeOptions {
 	margin: 3px 10px;

@@ -13,11 +13,13 @@ class App extends Component {
 
 		this.state = {
 			nightMode: false,
-			expanded: false
+			expanded: false,
+			colors: false
 		};
 
 		this.toggleNightMode = this.toggleNightMode.bind(this);
 		this.toggleExpanded = this.toggleExpanded.bind(this);
+		this.toggleColors = this.toggleColors.bind(this);
 	}
 
 	///////////////////////////////////////////////////////////
@@ -42,8 +44,15 @@ class App extends Component {
 		this.setState({ expanded });
 	}
 
+	toggleColors() {
+		let { colors } = this.state;
+		colors = !colors;
+
+		this.setState({ colors });
+	}
+
 	render() {
-		const { nightMode, expanded } = this.state;
+		const { nightMode, expanded, colors } = this.state;
 
 		////////////////////////////////////////////////////////
 		////     //        //  ///  //  ///////       //     ///
@@ -73,11 +82,18 @@ class App extends Component {
 						expanded={expanded}
 						toggleNightMode={this.toggleNightMode}
 						toggleExpanded={this.toggleExpanded}
+						toggleColors={this.toggleColors}
 					/>
 					<Route
 						exact
 						path="/"
-						render={() => <Table nightMode={nightMode} expanded={expanded} />}
+						render={() => (
+							<Table
+								nightMode={nightMode}
+								expanded={expanded}
+								colors={colors}
+							/>
+						)}
 					/>
 				</div>
 			</Router>

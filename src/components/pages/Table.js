@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import { css } from 'emotion';
+import matchSorter from 'match-sorter';
+
+import { _dark, _medGrey_lbg } from '../../lib/vars';
 
 import { DOMAIN_NAME } from '../../lib/vars';
 import '../../react-table-modified.css';
@@ -36,9 +39,56 @@ class Table extends Component {
 				const keys = ['name', 'profession', 'city', 'branch', 'assigned'];
 
 				const columns = keys.map((obj, i) => {
+					if (keys[i] === 'assigned') {
+						return {
+							Header: `${keys[i].charAt(0).toUpperCase()}${keys[i].slice(1)}`,
+							accessor: keys[i],
+							Cell: ({ value }) => (value ? 'Yes' : 'No'),
+							filterMethod: (filter, row) => {
+								if (filter.value === 'all') {
+									return true;
+								}
+								if (filter.value === 'true') {
+									return row.assigned;
+								}
+								return !row.assigned;
+							},
+							Filter: ({ filter, onChange }) => (
+								<select
+									onChange={event => onChange(event.target.value)}
+									value={filter ? filter.value : 'all'}
+									style={{
+										color: _medGrey_lbg,
+										height: '100%',
+										width: '100%',
+										border: 'none'
+									}}
+								>
+									<option value="all">All</option>
+									<option value="true">Yes</option>
+									<option value="false">No</option>
+								</select>
+							)
+						};
+					}
+
 					return {
 						Header: `${keys[i].charAt(0).toUpperCase()}${keys[i].slice(1)}`,
-						accessor: keys[i]
+						accessor: keys[i],
+						Filter: ({ filter, onChange }) => (
+							<input
+								onChange={event => onChange(event.target.value)}
+								placeholder="Filter"
+								value={filter ? filter.value : ''}
+								style={{
+									color: !this.props.nightMode ? _dark : 'white',
+									borderBottom: `1px solid ${_medGrey_lbg}`
+								}}
+							/>
+						),
+						filterMethod: (filter, rows) =>
+							matchSorter(rows, filter.value, { keys: [keys[i]] }),
+						filterAll: true
 					};
 				});
 
@@ -66,6 +116,42 @@ class Table extends Component {
 					columns={columns}
 					className="-striped -highlight"
 					defaultPageSize={pageSize}
+					getTrProps={(state, rowInfo, column) => {
+						if (rowInfo) {
+							let color;
+
+							if (this.props.nightMode) {
+								color = !this.props.colors ? 'white' : rowInfo.original.color;
+							} else {
+								color = !this.props.colors ? _dark : rowInfo.original.color;
+							}
+
+							return {
+								style: {
+									color
+								}
+							};
+						}
+
+						return {};
+					}}
+					getTableProps={(state, rowInfo, column) => {
+						return {
+							style: {
+								color: !this.props.nightMode ? _dark : 'white'
+							}
+						};
+					}}
+					getPaginationProps={(state, rowInfo, column) => {
+						return {
+							style: {
+								color: !this.props.nightMode ? _dark : 'white'
+							},
+							className: !this.props.nightMode
+								? 'customPagination'
+								: 'customPagination nightPagination'
+						};
+					}}
 				/>
 			</div>
 		);

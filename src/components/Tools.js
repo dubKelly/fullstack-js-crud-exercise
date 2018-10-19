@@ -68,7 +68,7 @@ const Tools = props => {
 				<DayMode nightMode={props.nightMode} />
 			</div>
 			<div className={svgContainer}>
-				<div className="svgCover" />
+				<div className="svgCover" onClick={props.toggleColors} />
 				<Colors />
 			</div>
 		</div>

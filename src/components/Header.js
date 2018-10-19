@@ -22,8 +22,8 @@ const Header = props => {
 	const h1 = css({
 		position: 'absolute',
 		top: '50%',
-		left: '50%',
-		transform: 'translate(-50%, -50%)',
+		left: '60px',
+		transform: 'translateY(-50%)',
 		padding: '0',
 		fontSize: '32px',
 		textTransform: 'uppercase',
@@ -45,6 +45,7 @@ const Header = props => {
 				expanded={props.expanded}
 				toggleNightMode={props.toggleNightMode}
 				toggleExpanded={props.toggleExpanded}
+				toggleColors={props.toggleColors}
 			/>
 		</div>
 	);
