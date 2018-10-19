@@ -6,11 +6,13 @@
   "dependencies": {
     "concurrently": "^3.6.0",
     "cors": "^2.8.4",
+    "emotion": "^9.2.12",
     "express": "^4.16.3",
     "nodemon": "^1.17.5",
     "prettier": "^1.14.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "react-table": "^6.8.6"
   },
