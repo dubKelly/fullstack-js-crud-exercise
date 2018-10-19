@@ -1,16 +1,37 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { css } from 'emotion';
 
+import Header from './components/Header';
 import Table from './components/pages/Table';
 
 class App extends Component {
+	///////   ///////  ///   //  //////    ///////  ///////
+	//    //  //       ////  //  //   //   //       //    //
+	///////   /////    // // //  //    //  /////    ///////
+	//  //    //       //  ////  //   //   //       //  //
+	//   //   ///////  //   ///  //////    ///////  //   //
+
 	render() {
 		return (
-			<Router>
-				<Route exact path="/" component={Table} />
-			</Router>
+			<div className={component}>
+				<Header />
+				<Table />
+			</div>
 		);
 	}
 }
+
+////////////////////////////////////////////////////////
+////     //        //  ///  //  ///////       //     ///
+///  /////////  //////  /  ///  ///////  //////  ///////
+////    //////  ///////  /////  ///////     ////    ////
+///////  /////  ///////  /////  ///////  //////////  ///
+///     //////  ///////  /////       //       //     ///
+////////////////////////////////////////////////////////
+
+const component = css({
+	height: '100vh',
+	width: '100%'
+});
 
 export default App;
