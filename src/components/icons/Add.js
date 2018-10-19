@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from 'emotion';
 
-import Tools from './Tools';
+import { _dark } from '../../lib/vars';
 
 ///////   ///////  ///   //  //////    ///////  ///////
 //    //  //       ////  //  //   //   //       //    //
@@ -9,12 +9,21 @@ import Tools from './Tools';
 //  //    //       //  ////  //   //   //       //  //
 //   //   ///////  //   ///  //////    ///////  //   //
 
-const Header = props => {
+const Add = props => {
 	return (
-		<div className={component}>
-			<h1 className={h1}>Plexxis</h1>
-			<Tools nightMode={props.nightMode} expanded={props.expanded} />
-		</div>
+		<svg
+			className={component}
+			height="32px"
+			id="Layer_1"
+			version="1.1"
+			viewBox="0 0 32 32"
+			width="32px"
+		>
+			<path
+				className={path}
+				d="M28,14H18V4c0-1.104-0.896-2-2-2s-2,0.896-2,2v10H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h10v10c0,1.104,0.896,2,2,2  s2-0.896,2-2V18h10c1.104,0,2-0.896,2-2S29.104,14,28,14z"
+			/>
+		</svg>
 	);
 };
 
@@ -27,19 +36,14 @@ const Header = props => {
 ////////////////////////////////////////////////////////
 
 const component = css({
-	position: 'relative',
-	height: '90px'
+	height: '100%',
+	width: '100%',
+	opacity: '0.5',
+	transition: 'opacity 0.3s ease-in-out'
 });
 
-const h1 = css({
-	position: 'absolute',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	padding: '0',
-	fontSize: '32px',
-	textTransform: 'uppercase',
-	letterSpacing: '15px'
+const path = css({
+	fill: _dark
 });
 
-export default Header;
+export default Add;

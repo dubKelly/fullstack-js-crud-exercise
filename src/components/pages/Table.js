@@ -20,6 +20,8 @@ class Table extends Component {
 		fetch(`${DOMAIN_NAME}/api/employees`)
 			.then(response => response.json())
 			.then(employees => {
+				// TODO: expand button
+
 				// let largestItem = employees[0];
 				//
 				// for (let i = 0; i < employees.length; i++) {
@@ -30,6 +32,7 @@ class Table extends Component {
 				//
 				// const keys = Object.keys(largestItem);
 
+				// Edit keys to change what columns are shown
 				const keys = ['name', 'profession', 'city', 'branch', 'assigned'];
 
 				const columns = keys.map((obj, i) => {
@@ -79,7 +82,7 @@ class Table extends Component {
 
 const component = css({
 	position: 'relative',
-	height: 'calc(100% - 60px)',
+	height: 'calc(100% - 90px)',
 	width: 'calc(100% - 60px)',
 	padding: '0 30px'
 });
