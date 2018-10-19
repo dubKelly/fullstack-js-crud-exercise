@@ -147,9 +147,10 @@ class Table extends Component {
 							style: {
 								color: !this.props.nightMode ? _dark : 'white'
 							},
-							className: !this.props.nightMode
-								? 'customPagination'
-								: 'customPagination nightPagination'
+							className:
+								employees.length > 100
+									? 'showJump customPagination'
+									: 'customPagination'
 						};
 					}}
 				/>

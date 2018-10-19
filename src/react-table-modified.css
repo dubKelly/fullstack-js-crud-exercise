@@ -351,6 +351,9 @@
 }
 .ReactTable .-pagination .-pageInfo {
 	display: none;
+}
+.ReactTable .-pagination.showJump .-pageInfo {
+	display: inline-block;
 	margin: 3px 10px;
 	white-space: nowrap;
 }
