@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import { css } from 'emotion';
-import matchSorter from 'match-sorter';
 
-import { _dark, _medGrey_lbg } from '../../lib/vars';
+import { _dark } from '../../lib/vars';
 
 import { DOMAIN_NAME } from '../../lib/vars';
 import '../../react-table-modified.css';
@@ -13,9 +12,7 @@ class Table extends Component {
 		super(props);
 
 		this.state = {
-			employees: [],
-			columns: [],
-			pageSize: 7
+			employees: []
 		};
 	}
 
@@ -23,79 +20,9 @@ class Table extends Component {
 		fetch(`${DOMAIN_NAME}/api/employees`)
 			.then(response => response.json())
 			.then(employees => {
-				// TODO: expand button
-
-				// let largestItem = employees[0];
-				//
-				// for (let i = 0; i < employees.length; i++) {
-				// 	if (employees[i].length > largestItem.length) {
-				// 		largestItem = employees[i];
-				// 	}
-				// }
-				//
-				// const keys = Object.keys(largestItem);
-
-				// Edit keys to change what columns are shown
-				const keys = ['name', 'profession', 'city', 'branch', 'assigned'];
-
-				const columns = keys.map((obj, i) => {
-					if (keys[i] === 'assigned') {
-						return {
-							Header: `${keys[i].charAt(0).toUpperCase()}${keys[i].slice(1)}`,
-							accessor: keys[i],
-							Cell: ({ value }) => (value ? 'Yes' : 'No'),
-							filterMethod: (filter, row) => {
-								if (filter.value === 'all') {
-									return true;
-								}
-								if (filter.value === 'true') {
-									return row.assigned;
-								}
-								return !row.assigned;
-							},
-							Filter: ({ filter, onChange }) => (
-								<select
-									onChange={event => onChange(event.target.value)}
-									value={filter ? filter.value : 'all'}
-									style={{
-										color: _medGrey_lbg,
-										height: '100%',
-										width: '100%',
-										border: 'none'
-									}}
-								>
-									<option value="all">All</option>
-									<option value="true">Yes</option>
-									<option value="false">No</option>
-								</select>
-							)
-						};
-					}
-
-					return {
-						Header: `${keys[i].charAt(0).toUpperCase()}${keys[i].slice(1)}`,
-						accessor: keys[i],
-						Filter: ({ filter, onChange }) => (
-							<input
-								onChange={event => onChange(event.target.value)}
-								placeholder="Filter"
-								value={filter ? filter.value : ''}
-								style={{
-									color: !this.props.nightMode ? _dark : 'white',
-									borderBottom: `1px solid ${_medGrey_lbg}`
-								}}
-							/>
-						),
-						filterMethod: (filter, rows) =>
-							matchSorter(rows, filter.value, { keys: [keys[i]] }),
-						filterAll: true
-					};
+				this.setState({ employees }, () => {
+					this.props.getColumns(this.state.employees);
 				});
-
-				const length = employees.length;
-				const pageSize = !(length > 10) ? length : 10;
-
-				this.setState({ employees, columns, pageSize });
 			});
 	};
 
@@ -106,14 +33,15 @@ class Table extends Component {
 	//   //   ///////  //   ///  //////    ///////  //   //
 
 	render() {
-		const { employees, columns, pageSize } = this.state;
+		const { employees } = this.state;
+		const pageSize = employees.length > 0 ? employees.length : 5;
 
 		return (
 			<div className={component}>
 				<ReactTable
 					data={employees}
 					filterable
-					columns={columns}
+					columns={this.props.columns}
 					className="-striped -highlight"
 					defaultPageSize={pageSize}
 					getTrProps={(state, rowInfo, column) => {

@@ -178,6 +178,9 @@ h1 {
 .customPagination span {
 	color: #8c979a;
 }
+select {
+	cursor: pointer;
+}
 .ReactTable .-pagination.nightPagination .-btn:not([disabled]):hover {
 	color: #fff;
 }
