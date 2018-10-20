@@ -1,4 +1,4 @@
-export const DOMAIN_NAME = 'https://safe-sierra-55804.herokuapp.com';
+export const DOMAIN_NAME = 'http://localhost:8080';
 
 // Colors
 export const _dark = '#17252a';

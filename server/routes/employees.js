@@ -1,9 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db');
+const { Client } = require('pg');
+const connectionString = require('../config/keys').DATABASE_URL;
+
+const client = new Client({
+	connectionString: connectionString
+});
+client.connect();
 
 router.get('/', (req, res, next) => {
-	db.query('SELECT * FROM employees', (err, res) => {
+	client.query('SELECT * FROM employees', (err, res) => {
 		if (err) {
 			console.log(err);
 			return next(err);
@@ -14,7 +20,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-	db.query(
+	client.query(
 		'INSERT INTO employees(id, name, code, profession, color, city, branch, assigned) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
 		[
 			req.body.id,
