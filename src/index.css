@@ -155,6 +155,11 @@ select {
 	font-family: 'Nunito', 'HelveticaNeue-Light', 'Helvetica Neue Light',
 		'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
 }
+body::-webkit-scrollbar,
+.rt-tbody::-webkit-scrollbar {
+	width: 0;
+	color: transparent;
+}
 h1 {
 	font-family: 'Nunito', 'HelveticaNeue-Light', 'Helvetica Neue Light',
 		'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;

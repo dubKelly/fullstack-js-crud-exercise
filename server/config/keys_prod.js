@@ -1,3 +1,3 @@
 module.exports = {
-	POSTGRES_URI: process.env.POSTGRES_URI
+	DATABASE_URL: process.env.DATABASE_URL
 };
