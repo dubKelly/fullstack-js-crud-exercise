@@ -362,16 +362,17 @@ class UpdateEmployee extends Component {
 			display: 'inline-block',
 			height: '16px',
 			width: '16px',
-			border: !assigned.value
-				? `1px solid ${_medGrey_lbg}`
-				: '1px solid transparent',
+			border:
+				assigned.value === 'true'
+					? '1px solid transparent'
+					: `1px solid ${_medGrey_lbg}`,
 			borderRadius: '3px',
 			margin: '8px',
-			backgroundColor: !assigned.value ? 'transparent' : _light,
+			backgroundColor: assigned.value === 'true' ? _light : 'transparent',
 			transition: 'background-color 0.3s ease-in-out',
 			cursor: 'pointer',
 			':hover': {
-				backgroundColor: !assigned.value ? _medGrey_lbg : _shadow
+				backgroundColor: assigned.value === 'true' ? _shadow : _medGrey_lbg
 			}
 		});
 
