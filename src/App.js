@@ -3,26 +3,40 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { css } from 'emotion';
 import matchSorter from 'match-sorter';
 
-import { _dark, _medGrey_lbg } from './lib/vars';
+import { _dark, _medGrey_lbg, DOMAIN_NAME } from './lib/vars';
 
 import Header from './components/Header';
 import Table from './components/pages/Table';
+import AddEmployee from './components/pages/AddEmployee';
 
 class App extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
+			employees: [],
 			columns: [],
 			nightMode: false,
 			expanded: false,
-			colors: false
+			colors: false,
+			disabled: false
 		};
 
 		this.getColumns = this.getColumns.bind(this);
+		this.addClick = this.addClick.bind(this);
 		this.toggleNightMode = this.toggleNightMode.bind(this);
 		this.toggleExpanded = this.toggleExpanded.bind(this);
 		this.toggleColors = this.toggleColors.bind(this);
+	}
+
+	componentWillMount() {
+		fetch(`${DOMAIN_NAME}/api/employees`)
+			.then(response => response.json())
+			.then(employees => {
+				this.setState({ employees }, () => {
+					this.getColumns(this.state.employees);
+				});
+			});
 	}
 
 	///////////////////////////////////////////////////////////
@@ -109,6 +123,13 @@ class App extends Component {
 		this.setState({ employees, columns });
 	}
 
+	addClick() {
+		this.setState({ disabled: true }, () => {
+			window.location.href = './add-employee';
+			console.log(this.state.disabled);
+		});
+	}
+
 	toggleNightMode() {
 		let { nightMode } = this.state;
 		nightMode = !nightMode;
@@ -117,23 +138,38 @@ class App extends Component {
 	}
 
 	toggleExpanded() {
-		let { expanded } = this.state;
-		expanded = !expanded;
+		const { disabled } = this.state;
 
-		this.setState({ expanded }, () => {
-			this.getColumns(this.state.employees);
-		});
+		if (!disabled) {
+			let { expanded } = this.state;
+			expanded = !expanded;
+
+			this.setState({ expanded }, () => {
+				this.getColumns(this.state.employees);
+			});
+		}
 	}
 
 	toggleColors() {
-		let { colors } = this.state;
-		colors = !colors;
+		const { disabled } = this.state;
 
-		this.setState({ colors });
+		if (!disabled) {
+			let { colors } = this.state;
+			colors = !colors;
+
+			this.setState({ colors });
+		}
 	}
 
 	render() {
-		const { columns, nightMode, expanded, colors } = this.state;
+		const {
+			employees,
+			columns,
+			nightMode,
+			expanded,
+			colors,
+			disabled
+		} = this.state;
 
 		////////////////////////////////////////////////////////
 		////     //        //  ///  //  ///////       //     ///
@@ -161,6 +197,8 @@ class App extends Component {
 					<Header
 						nightMode={nightMode}
 						expanded={expanded}
+						disabled={disabled}
+						addClick={this.addClick}
 						toggleNightMode={this.toggleNightMode}
 						toggleExpanded={this.toggleExpanded}
 						toggleColors={this.toggleColors}
@@ -171,12 +209,18 @@ class App extends Component {
 						render={() => (
 							<Table
 								getColumns={this.getColumns}
+								employees={employees}
 								columns={columns}
 								nightMode={nightMode}
 								expanded={expanded}
 								colors={colors}
 							/>
 						)}
+					/>
+					<Route
+						exact
+						path="/add-employee"
+						render={() => <AddEmployee employees={employees} />}
 					/>
 				</div>
 			</Router>

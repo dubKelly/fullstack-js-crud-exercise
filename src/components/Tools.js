@@ -54,11 +54,14 @@ const Tools = props => {
 	return (
 		<div className={component}>
 			<div className={`${addContainer} ${svgContainer}`}>
-				<div className="svgCover" />
+				<div className="svgCover" onClick={props.addClick} />
 				<Add nightMode={props.nightMode} />
 			</div>
 			<div className={svgContainer}>
-				<div className="svgCover" onClick={props.toggleExpanded} />
+				<div
+					className={`svgCover disabled${props.disabled}`}
+					onClick={props.toggleExpanded}
+				/>
 				<Expand nightMode={props.nightMode} expanded={props.expanded} />
 				<Retract nightMode={props.nightMode} expanded={props.expanded} />
 			</div>
@@ -68,7 +71,10 @@ const Tools = props => {
 				<DayMode nightMode={props.nightMode} />
 			</div>
 			<div className={svgContainer}>
-				<div className="svgCover" onClick={props.toggleColors} />
+				<div
+					className={`svgCover disabled${props.disabled}`}
+					onClick={props.toggleColors}
+				/>
 				<Colors />
 			</div>
 		</div>

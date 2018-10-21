@@ -43,6 +43,8 @@ const Header = props => {
 			<Tools
 				nightMode={props.nightMode}
 				expanded={props.expanded}
+				disabled={props.disabled}
+				addClick={props.addClick}
 				toggleNightMode={props.toggleNightMode}
 				toggleExpanded={props.toggleExpanded}
 				toggleColors={props.toggleColors}

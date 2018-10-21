@@ -178,6 +178,13 @@ h1 {
 .svgCover:hover ~ svg {
 	opacity: 1 !important;
 }
+.svgCover.disabledtrue {
+	cursor: default;
+	opacity: 0.2;
+}
+.svgCover.disabledtrue:hover ~ svg {
+	opacity: 0.2 !important;
+}
 .customPagination select,
 .customPagination input,
 .customPagination span {
@@ -188,4 +195,38 @@ select {
 }
 .ReactTable .-pagination.nightPagination .-btn:not([disabled]):hover {
 	color: #fff;
+}
+.react-autosuggest__input {
+	position: relative;
+	float: left;
+	display: inline-block !important;
+	box-sizing: border-box;
+	border: 1px solid #dadedf;
+	border-radius: 3px;
+	resize: none;
+	margin: 8px 8px 8px 0;
+	padding: 10px 10px;
+	font-size: 14px;
+	color: #17252a;
+	outline: none;
+	z-index: 2;
+	background-color: transparent;
+}
+.react-autosuggest__suggestions-container {
+	transform: translateY(9px);
+	height: 39px;
+	z-index: -1;
+}
+.react-autosuggest__suggestions-list {
+	transform: translate(1px, -44px);
+	/* z-index: 1; */
+	/* height: 120px;
+	overflow-y: hidden; */
+	/* position: relative;
+	left: 30px;
+	top: calc(50% + 21px); */
+	/* padding: 20px 0; */
+	/* border: 1px solid #dadedf; */
+	/* border-radius: 3px;
+	background-color: white; */
 }

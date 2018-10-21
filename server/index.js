@@ -11,12 +11,6 @@ const employees = require('./routes/employees');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Cors
-var corsOptions = {
-	origin: 'http://localhost:3000',
-	optionsSuccessStatus: 200
-};
-
 // app.use(function(req, res, next) {
 // 	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 // 	res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -41,7 +35,7 @@ var corsOptions = {
 // });
 
 // Routes
-app.use('/api/employees', cors(corsOptions), employees);
+app.use('/api/employees', employees);
 
 // Serve static in production
 if (process.env.NODE_ENV === 'production') {

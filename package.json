@@ -17,10 +17,11 @@
 		"react-dom": "^16.4.1",
 		"react-router-dom": "^4.3.1",
 		"react-scripts": "1.1.4",
-		"react-table": "^6.8.6"
+		"react-table": "^6.8.6",
+		"shortid": "^2.2.13"
 	},
 	"scripts": {
-		"start": "concurrently --kill-others \"node server\" \"npm run start:react-app\"",
+		"start": "concurrently --kill-others \"nodemon server\" \"npm run start:react-app\"",
 		"start:react-app": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test --env=jsdom",

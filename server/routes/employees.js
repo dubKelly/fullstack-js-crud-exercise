@@ -1,25 +1,39 @@
 const express = require('express');
 const router = express.Router();
+const cors = require('cors');
 const { Client } = require('pg');
 const connectionString = require('../config/keys').DATABASE_URL;
+
+// Cors
+const corsOptions = {
+	origin: 'http://localhost:3000',
+	optionsSuccessStatus: 200
+};
 
 const client = new Client({
 	connectionString: connectionString
 });
-client.connect();
 
-router.get('/', (req, res, next) => {
-	client.query('SELECT * FROM employees', (err, res) => {
+client.connect(err => {
+	if (err) {
+		console.error('connection error', err.stack);
+	} else {
+		console.log('connected to pg');
+	}
+});
+
+router.get('/', cors(), (req, res, next) => {
+	client.query('SELECT * FROM employees', (err, result) => {
 		if (err) {
 			console.log(err);
 			return next(err);
 		}
-		// res.send(res.rows[0]);
-		console.log('success');
+		res.send(result.rows);
 	});
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', cors(), (req, res, next) => {
+	console.log(req.body);
 	client.query(
 		'INSERT INTO employees(id, name, code, profession, color, city, branch, assigned) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
 		[
@@ -32,11 +46,11 @@ router.post('/', (req, res, next) => {
 			req.body.branch,
 			req.body.assigned
 		],
-		(err, res) => {
+		(err, result) => {
 			if (err) {
-				console.log(err.stack);
+				res.send(err.stack);
 			} else {
-				console.log(res.rows[0]);
+				res.json(result.rows[0]);
 			}
 		}
 	);
