@@ -23,17 +23,23 @@ class App extends Component {
 		};
 
 		this.getColumns = this.getColumns.bind(this);
-		this.addClick = this.addClick.bind(this);
 		this.toggleNightMode = this.toggleNightMode.bind(this);
 		this.toggleExpanded = this.toggleExpanded.bind(this);
 		this.toggleColors = this.toggleColors.bind(this);
+		this.toggleDisabled = this.toggleDisabled.bind(this);
 	}
 
 	componentWillMount() {
 		fetch(`${DOMAIN_NAME}/api/employees`)
 			.then(response => response.json())
 			.then(employees => {
-				this.setState({ employees }, () => {
+				let disabled = false;
+
+				if (window.location.pathname !== '/') {
+					disabled = true;
+				}
+
+				this.setState({ employees, disabled }, () => {
 					this.getColumns(this.state.employees);
 				});
 			});
@@ -123,13 +129,6 @@ class App extends Component {
 		this.setState({ employees, columns });
 	}
 
-	addClick() {
-		this.setState({ disabled: true }, () => {
-			window.location.href = './add-employee';
-			console.log(this.state.disabled);
-		});
-	}
-
 	toggleNightMode() {
 		let { nightMode } = this.state;
 		nightMode = !nightMode;
@@ -159,6 +158,15 @@ class App extends Component {
 
 			this.setState({ colors });
 		}
+	}
+
+	toggleDisabled() {
+		const disabled = !this.state.disable;
+		console.log(disabled);
+
+		this.setState({ disabled }, () => {
+			console.log(this.state.disabled);
+		});
 	}
 
 	render() {
@@ -220,7 +228,12 @@ class App extends Component {
 					<Route
 						exact
 						path="/add-employee"
-						render={() => <AddEmployee employees={employees} />}
+						render={() => (
+							<AddEmployee
+								employees={employees}
+								toggleDisabled={this.toggleDisabled}
+							/>
+						)}
 					/>
 				</div>
 			</Router>

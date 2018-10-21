@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { css } from 'emotion';
 
 import Add from './icons/Add';
@@ -54,7 +55,7 @@ const Tools = props => {
 	return (
 		<div className={component}>
 			<div className={`${addContainer} ${svgContainer}`}>
-				<div className="svgCover" onClick={props.addClick} />
+				<Link to="/add-employee" className="svgCover" />
 				<Add nightMode={props.nightMode} />
 			</div>
 			<div className={svgContainer}>

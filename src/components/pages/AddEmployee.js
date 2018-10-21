@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import { css } from 'emotion';
+import shortid from 'shortid';
 
-import { _lightGrey, _medGrey_lbg, _dark } from '../../lib/vars';
+import {
+	_light,
+	_lightGrey,
+	_medGrey_lbg,
+	_dark,
+	_shadow
+} from '../../lib/vars';
 
 class AddEmployee extends Component {
 	constructor(props) {
@@ -30,13 +37,30 @@ class AddEmployee extends Component {
 			branch: {
 				value: '',
 				suggestion: 'Branch'
+			},
+			assigned: {
+				value: false
 			}
 		};
 
 		this.saveChange = this.saveChange.bind(this);
 		this.getSuggestion = this.getSuggestion.bind(this);
-		this.preventReturn = this.preventReturn.bind(this);
+		this.handleKeyDown = this.handleKeyDown.bind(this);
+		this.toggleAssigned = this.toggleAssigned.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
 	}
+
+	componentDidMount() {
+		this.props.toggleDisabled;
+	}
+
+	///////////////////////////////////////////////////////////
+	////     ///  ///  ///     //        ///     ///   //   ///
+	///  ///  //  ///  //  /////////  /////  ///  //        ///
+	///  ///////  ///  ///    //////  /////  ///  //  /  /  ///
+	///  ///  //  ///  //////  /////  /////  ///  //  ////  ///
+	////     ////     ///     //////  //////     ///  ////  ///
+	///////////////////////////////////////////////////////////
 
 	saveChange(e) {
 		const name = e.target.getAttribute('name');
@@ -81,7 +105,7 @@ class AddEmployee extends Component {
 		});
 	}
 
-	preventReturn(e) {
+	handleKeyDown(e) {
 		const name = e.target.getAttribute('name');
 
 		if (e.key === 'Tab' && name !== 'submit') {
@@ -100,14 +124,69 @@ class AddEmployee extends Component {
 		}
 	}
 
-	///////   ///////  ///   //  //////    ///////  ///////
-	//    //  //       ////  //  //   //   //       //    //
-	///////   /////    // // //  //    //  /////    ///////
-	//  //    //       //  ////  //   //   //       //  //
-	//   //   ///////  //   ///  //////    ///////  //   //
+	toggleAssigned() {
+		const { assigned } = this.state;
+		const value = !assigned.value;
+
+		this.setState({ assigned: { value } });
+	}
+
+	handleSubmit(e) {
+		e.preventDefault();
+	}
 
 	render() {
-		const { profession, color, city, branch } = this.state;
+		const { profession, color, city, branch, assigned } = this.state;
+
+		////////////////////////////////////////////////////////
+		////     //        //  ///  //  ///////       //     ///
+		///  /////////  //////  /  ///  ///////  //////  ///////
+		////    //////  ///////  /////  ///////     ////    ////
+		///////  /////  ///////  /////  ///////  //////////  ///
+		///     //////  ///////  /////       //       //     ///
+		////////////////////////////////////////////////////////
+
+		const component = css({
+			display: 'flex',
+			flexWrap: 'wrap',
+			justifyContent: 'center',
+			alignItems: 'center',
+			position: 'relative',
+			height: 'calc(100% - 90px)',
+			width: 'calc(100% - 60px)',
+			padding: '0 30px'
+		});
+
+		const form = css({
+			padding: '30px 0'
+		});
+
+		const input = css({
+			position: 'relative',
+			border: `1px solid ${_lightGrey}`,
+			borderRadius: '3px',
+			boxSizing: 'border-box',
+			resize: 'none',
+			width: '100%',
+			margin: '8px 0',
+			padding: '10px 10px',
+			fontSize: '14px',
+			color: _dark,
+			backgroundColor: 'transparent',
+			outline: 'none',
+			zIndex: '3'
+		});
+
+		const suggestion = css({
+			position: 'absolute',
+			color: _medGrey_lbg,
+			border: '1px solid transparent',
+			padding: '12px 10px',
+			width: 'calc(100% - 60px)',
+			maxWidth: '676px',
+			transform: 'translateY(-56px)',
+			zIndex: '1'
+		});
 
 		const colorStyles = {
 			color: /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color.color)
@@ -115,9 +194,115 @@ class AddEmployee extends Component {
 				: _dark
 		};
 
+		const colorSuggestion = css({
+			position: 'absolute',
+			border: '1px solid transparent',
+			padding: '13px 10px',
+			display: 'inline-block',
+			width: 'calc(66% - 44px)',
+			maxWidth: '442px',
+			margin: '8px 0 8px 0',
+			zIndex: '1'
+		});
+
+		const colorInput = css({
+			float: 'left',
+			display: 'inline-block',
+			width: 'calc(66% - 4px)',
+			margin: '8px 0 8px 0'
+		});
+
+		const code = css({
+			float: 'right',
+			display: 'inline-block',
+			width: 'calc(33% - 4px)',
+			margin: '8px 0 8px 0'
+		});
+
+		const checkGroup = css({
+			display: 'flex',
+			justifyContent: 'flex-end',
+			alignItems: 'center',
+			margin: '8px 0'
+		});
+
+		const checkBox = css({
+			display: 'inline-block',
+			height: '16px',
+			width: '16px',
+			border: !assigned.value
+				? `1px solid ${_lightGrey}`
+				: '1px solid transparent',
+			borderRadius: '3px',
+			margin: '8px',
+			backgroundColor: !assigned.value ? 'transparent' : _light,
+			transition: 'background-color 0.3s ease-in-out',
+			cursor: 'pointer',
+			':hover': {
+				backgroundColor: _lightGrey
+			}
+		});
+
+		const checkLabel = css({
+			margin: '2px 0 0 0',
+			color: _medGrey_lbg
+		});
+
+		const button = css({
+			display: 'inline-block',
+			borderRadius: '3px',
+			width: '33%',
+			margin: '16px 0 0 8px',
+			padding: '10px 10px',
+			fontSize: '14px',
+			cursor: 'pointer',
+			transition: 'all 0.3s ease-in-out'
+		});
+
+		const cancel = css({
+			color: _lightGrey,
+			backgroundColor: 'transparent',
+			border: `1px solid ${_lightGrey}`,
+			':hover': {
+				color: _light,
+				border: `1px solid ${_light}`
+			},
+			':focus': {
+				outline: 'none',
+				color: _light,
+				border: `1px solid ${_light}`
+			}
+		});
+
+		const submit = css({
+			float: 'right',
+			border: 'none',
+			color: 'white',
+			backgroundColor: _light,
+			':hover': {
+				color: 'white',
+				backgroundColor: _shadow
+			},
+			':focus': {
+				outline: 'none',
+				color: 'white',
+				backgroundColor: _light
+			}
+		});
+
+		///////   ///////  ///   //  //////    ///////  ///////
+		//    //  //       ////  //  //   //   //       //    //
+		///////   /////    // // //  //    //  /////    ///////
+		//  //    //       //  ////  //   //   //       //  //
+		//   //   ///////  //   ///  //////    ///////  //   //
+
 		return (
 			<div className={component}>
-				<form className={form} onKeyDown={this.preventReturn}>
+				<form
+					className={form}
+					onSubmit={this.handleSubmit}
+					onKeyDown={this.handleKeyDown}
+				>
 					<div>
 						<input
 							type="text"
@@ -194,72 +379,35 @@ class AddEmployee extends Component {
 					>
 						{branch.suggestion}
 					</div>
+					<div className={checkGroup}>
+						<div
+							name="assigned"
+							className={checkBox}
+							onClick={this.toggleAssigned}
+						/>
+						<span className={checkLabel}>Assigned</span>
+					</div>
+					<button
+						type="submit"
+						className={css`
+							${submit} ${button};
+						`}
+						value="Save"
+					>
+						Submit
+					</button>
+					<button
+						className={css`
+							${cancel} ${button};
+						`}
+						value="Cancel"
+					>
+						Cancel
+					</button>
 				</form>
 			</div>
 		);
 	}
 }
-
-const component = css({
-	display: 'flex',
-	alignItems: 'center',
-	position: 'relative',
-	height: 'calc(100% - 90px)',
-	width: 'calc(100% - 60px)',
-	padding: '0 30px'
-});
-
-const form = css({
-	padding: '30px 0'
-});
-
-const input = css({
-	position: 'relative',
-	border: `1px solid ${_lightGrey}`,
-	borderRadius: '3px',
-	boxSizing: 'border-box',
-	resize: 'none',
-	width: '100%',
-	margin: '8px 0',
-	padding: '10px 10px',
-	fontSize: '14px',
-	color: _dark,
-	backgroundColor: 'transparent',
-	outline: 'none',
-	zIndex: '3'
-});
-
-const suggestion = css({
-	position: 'absolute',
-	color: _medGrey_lbg,
-	border: '1px solid transparent',
-	padding: '12px 10px',
-	transform: 'translateY(-56px)',
-	zIndex: '1'
-});
-
-const colorSuggestion = css({
-	position: 'absolute',
-	border: '1px solid transparent',
-	padding: '13px 10px',
-	display: 'inline-block',
-	width: 'calc(66% - 4px)',
-	margin: '8px 0 8px 0',
-	zIndex: '1'
-});
-
-const colorInput = css({
-	float: 'left',
-	display: 'inline-block',
-	width: 'calc(66% - 4px)',
-	margin: '8px 0 8px 0'
-});
-
-const code = css({
-	float: 'right',
-	display: 'inline-block',
-	width: 'calc(33% - 4px)',
-	margin: '8px 0 8px 0'
-});
 
 export default AddEmployee;

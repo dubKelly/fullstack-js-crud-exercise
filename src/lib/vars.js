@@ -2,6 +2,8 @@ export const DOMAIN_NAME = 'http://localhost:8080';
 
 // Colors
 export const _dark = '#17252a';
+export const _light = '#3aafa9';
+export const _shadow = '#2b7a78';
 export const _lightGrey = '#dadedf';
 export const _medGrey_dbg = '#a7afb2'; // dark background
 export const _medGrey_lbg = '#8c979a'; // light background
