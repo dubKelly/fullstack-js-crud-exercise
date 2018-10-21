@@ -200,8 +200,7 @@ class UpdateEmployee extends Component {
 					this.setState(
 						{
 							pending: false,
-							success: true,
-							id: shortid.generate()
+							success: true
 						},
 						() => {
 							window.location.pathname = '/';

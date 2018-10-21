@@ -55,6 +55,29 @@ router.post('/', cors(), (req, res, next) => {
 	);
 });
 
+router.put('/', cors(), (req, res, next) => {
+	client.query(
+		'UPDATE employees SET name = $2, code = $3, profession = $4, color = $5, city = $6, branch = $7, assigned = $8 WHERE id = $1',
+		[
+			req.body.id,
+			req.body.name,
+			req.body.code,
+			req.body.profession,
+			req.body.color,
+			req.body.city,
+			req.body.branch,
+			req.body.assigned
+		],
+		(err, result) => {
+			if (err) {
+				res.send(err.stack);
+			} else {
+				res.json(result.rows[0]);
+			}
+		}
+	);
+});
+
 router.delete('/', cors(), (req, res, next) => {
 	client.query(
 		'DELETE FROM employees WHERE id = $1',
