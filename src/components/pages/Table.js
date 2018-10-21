@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import { css } from 'emotion';
+import queryString from 'query-string';
 
 import { _dark } from '../../lib/vars';
 
@@ -46,6 +47,19 @@ const Table = props => {
 					return {
 						style: {
 							color: !props.nightMode ? _dark : 'white'
+						}
+					};
+				}}
+				getTdProps={(state, rowInfo, column, instance) => {
+					return {
+						onClick: (e, handleOriginal) => {
+							const stringified = queryString.stringify(rowInfo.original);
+
+							window.location.pathname = `/update/${stringified}`;
+
+							if (handleOriginal) {
+								handleOriginal();
+							}
 						}
 					};
 				}}

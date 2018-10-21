@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import { css } from 'emotion';
 import shortid from 'shortid';
 import axios from 'axios';
+import queryString from 'query-string';
 
 import {
 	_light,
 	_medGrey_lbg,
 	_dark,
 	_shadow,
+	_red,
 	DOMAIN_NAME
 } from '../../lib/vars';
 
-class AddEmployee extends Component {
+class UpdateEmployee extends Component {
 	constructor(props) {
 		super(props);
 
@@ -50,10 +52,42 @@ class AddEmployee extends Component {
 		this.handleKeyDown = this.handleKeyDown.bind(this);
 		this.toggleAssigned = this.toggleAssigned.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.deleteEmployee = this.deleteEmployee.bind(this);
 	}
 
-	componentDidMount() {
-		this.props.toggleDisabled;
+	componentWillMount() {
+		const pathName = window.location.pathname.substring(8);
+		const rowInfo = queryString.parse(pathName);
+		console.log(rowInfo);
+
+		this.setState({
+			id: rowInfo.id,
+			name: {
+				value: rowInfo.name
+			},
+			profession: {
+				value: rowInfo.profession,
+				suggestion: rowInfo.profession
+			},
+			color: {
+				value: rowInfo.color,
+				suggestion: rowInfo.color
+			},
+			code: {
+				value: rowInfo.code
+			},
+			city: {
+				value: rowInfo.city,
+				suggestion: rowInfo.city
+			},
+			branch: {
+				value: rowInfo.branch,
+				suggestion: rowInfo.branch
+			},
+			assigned: {
+				value: rowInfo.assigned
+			}
+		});
 	}
 
 	///////////////////////////////////////////////////////////
@@ -160,7 +194,38 @@ class AddEmployee extends Component {
 		this.setState({ pending: true });
 
 		axios
-			.post(`${DOMAIN_NAME}/api/employees`, employee)
+			.put(`${DOMAIN_NAME}/api/employees`, employee)
+			.then(res => {
+				if (res.status === 200) {
+					this.setState(
+						{
+							pending: false,
+							success: true,
+							id: shortid.generate()
+						},
+						() => {
+							window.location.pathname = '/';
+						}
+					);
+				}
+			})
+			.catch(err => {
+				console.log(err);
+				if (err.response) {
+					this.setState({ pending: false });
+				}
+			});
+	}
+
+	deleteEmployee(e) {
+		e.preventDefault();
+
+		const employee = {
+			employeeId: this.state.id
+		};
+
+		axios
+			.delete(`${DOMAIN_NAME}/api/employees`, { data: employee })
 			.then(res => {
 				if (res.status === 200) {
 					this.setState(
@@ -184,7 +249,15 @@ class AddEmployee extends Component {
 	}
 
 	render() {
-		const { profession, color, city, branch, assigned } = this.state;
+		const {
+			name,
+			profession,
+			color,
+			code,
+			city,
+			branch,
+			assigned
+		} = this.state;
 
 		////////////////////////////////////////////////////////
 		////     //        //  ///  //  ///////       //     ///
@@ -272,7 +345,7 @@ class AddEmployee extends Component {
 			margin: '8px 0 8px 0'
 		});
 
-		const code = css({
+		const codeInput = css({
 			float: 'right',
 			display: 'inline-block',
 			width: 'calc(33% - 4px)',
@@ -299,7 +372,7 @@ class AddEmployee extends Component {
 			transition: 'background-color 0.3s ease-in-out',
 			cursor: 'pointer',
 			':hover': {
-				backgroundColor: _medGrey_lbg
+				backgroundColor: !assigned.value ? _medGrey_lbg : _shadow
 			}
 		});
 
@@ -319,18 +392,18 @@ class AddEmployee extends Component {
 			transition: 'all 0.3s ease-in-out'
 		});
 
-		const cancel = css({
+		const deleteButton = css({
 			color: _medGrey_lbg,
 			backgroundColor: 'transparent',
 			border: `1px solid ${_medGrey_lbg}`,
 			':hover': {
-				color: _light,
-				border: `1px solid ${_light}`
+				color: _red,
+				border: `1px solid ${_red}`
 			},
 			':focus': {
 				outline: 'none',
-				color: _light,
-				border: `1px solid ${_light}`
+				color: _red,
+				border: `1px solid ${_red}`
 			}
 		});
 
@@ -368,6 +441,7 @@ class AddEmployee extends Component {
 							type="text"
 							name="name"
 							placeholder="Name"
+							defaultValue={name.value}
 							className={input}
 							onChange={this.saveChange}
 						/>
@@ -376,6 +450,7 @@ class AddEmployee extends Component {
 						<input
 							type="text"
 							name="profession"
+							defaultValue={profession.value}
 							className={input}
 							onChange={this.getSuggestion}
 						/>
@@ -391,6 +466,7 @@ class AddEmployee extends Component {
 					<input
 						type="text"
 						name="color"
+						defaultValue={color.value}
 						className={css`
 							${input} ${colorInput};
 						`}
@@ -405,12 +481,12 @@ class AddEmployee extends Component {
 					>
 						{color.suggestion}
 					</div>
-
 					<input
 						type="text"
 						name="code"
+						defaultValue={code.value}
 						className={css`
-							${input} ${code};
+							${input} ${codeInput};
 						`}
 						placeholder="Code"
 						onChange={this.saveChange}
@@ -418,6 +494,7 @@ class AddEmployee extends Component {
 					<input
 						type="text"
 						name="city"
+						defaultValue={city.value}
 						className={input}
 						onChange={this.getSuggestion}
 					/>
@@ -431,6 +508,7 @@ class AddEmployee extends Component {
 					<input
 						type="text"
 						name="branch"
+						defaultValue={branch.value}
 						className={input}
 						onChange={this.getSuggestion}
 					/>
@@ -454,17 +532,18 @@ class AddEmployee extends Component {
 						className={css`
 							${submit} ${button};
 						`}
-						value="Save"
+						value="Update"
 					>
-						Submit
+						Update
 					</button>
 					<button
+						onClick={this.deleteEmployee}
 						className={css`
-							${cancel} ${button};
+							${deleteButton} ${button};
 						`}
-						value="Cancel"
+						value="Delete"
 					>
-						Cancel
+						Delete
 					</button>
 				</form>
 			</div>
@@ -472,4 +551,4 @@ class AddEmployee extends Component {
 	}
 }
 
-export default AddEmployee;
+export default UpdateEmployee;

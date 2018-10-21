@@ -33,7 +33,6 @@ router.get('/', cors(), (req, res, next) => {
 });
 
 router.post('/', cors(), (req, res, next) => {
-	console.log(req.body);
 	client.query(
 		'INSERT INTO employees(id, name, code, profession, color, city, branch, assigned) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
 		[
@@ -52,6 +51,20 @@ router.post('/', cors(), (req, res, next) => {
 			} else {
 				res.json(result.rows[0]);
 			}
+		}
+	);
+});
+
+router.delete('/', cors(), (req, res, next) => {
+	client.query(
+		'DELETE FROM employees WHERE id = $1',
+		[req.body.employeeId],
+		(err, result) => {
+			if (err) {
+				console.log(err);
+				return next(err);
+			}
+			res.send(result.rows);
 		}
 	);
 });

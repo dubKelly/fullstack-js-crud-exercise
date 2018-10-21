@@ -35,7 +35,7 @@ app.use(bodyParser.json());
 // });
 
 // Routes
-app.use('/api/employees', employees);
+app.use('/api/employees', cors(), employees);
 
 // Serve static in production
 if (process.env.NODE_ENV === 'production') {

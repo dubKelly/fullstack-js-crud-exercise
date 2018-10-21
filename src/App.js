@@ -8,6 +8,7 @@ import { _dark, _medGrey_lbg, DOMAIN_NAME } from './lib/vars';
 import Header from './components/Header';
 import Table from './components/pages/Table';
 import AddEmployee from './components/pages/AddEmployee';
+import UpdateEmployee from './components/pages/UpdateEmployee';
 
 class App extends Component {
 	constructor(props) {
@@ -229,10 +230,13 @@ class App extends Component {
 						exact
 						path="/add-employee"
 						render={() => (
-							<AddEmployee
-								employees={employees}
-								toggleDisabled={this.toggleDisabled}
-							/>
+							<AddEmployee employees={employees} nightMode={nightMode} />
+						)}
+					/>
+					<Route
+						path="/update/:query"
+						render={() => (
+							<UpdateEmployee employees={employees} nightMode={nightMode} />
 						)}
 					/>
 				</div>
