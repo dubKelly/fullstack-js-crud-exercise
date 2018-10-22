@@ -1,7 +1,5 @@
 import React from 'react';
 import { css } from 'emotion';
-import PropTypes from 'prop-types';
-import shortid from 'shortid';
 import { _dark } from '../lib/vars';
 
 const Burger = props => {
@@ -96,12 +94,6 @@ const Burger = props => {
 			<div onClick={props.toggleMenu} className={cover} />
 		</div>
 	);
-};
-
-Burger.propTypes = {
-	// menu: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
-	// toggleMenu: PropTypes.func.isRequired,
-	// instance: PropTypes.string.isRequired
 };
 
 export default Burger;
