@@ -26,7 +26,7 @@
 		"shortid": "^2.2.13"
 	},
 	"scripts": {
-		"start": "concurrently --kill-others \"nodemon server\" \"npm run start:react-app\"",
+		"start": "node server.js",
 		"start:react-app": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test --env=jsdom",
