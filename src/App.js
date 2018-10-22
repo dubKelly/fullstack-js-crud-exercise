@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { css } from 'emotion';
 import matchSorter from 'match-sorter';
+import axios from 'axios';
 
 import { _dark, _medGrey_lbg, DOMAIN_NAME } from './lib/vars';
 
@@ -31,7 +32,8 @@ class App extends Component {
 	}
 
 	componentWillMount() {
-		fetch(`${DOMAIN_NAME}/api/employees`)
+		axios
+			.get(`${DOMAIN_NAME}/api/employees`)
 			.then(response => response.json())
 			.then(employees => {
 				let disabled = false;
