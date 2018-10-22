@@ -23,7 +23,7 @@ client.connect(err => {
 	}
 });
 
-router.get('/', cors(), (req, res, next) => {
+router.get('/', cors(corsOptions), (req, res, next) => {
 	client.query('SELECT * FROM employees', (err, result) => {
 		if (err) {
 			console.log(err);
@@ -33,7 +33,7 @@ router.get('/', cors(), (req, res, next) => {
 	});
 });
 
-router.post('/', cors(), (req, res, next) => {
+router.post('/', cors(corsOptions), (req, res, next) => {
 	client.query(
 		'INSERT INTO employees(id, name, code, profession, color, city, branch, assigned) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
 		[
@@ -56,7 +56,7 @@ router.post('/', cors(), (req, res, next) => {
 	);
 });
 
-router.put('/', cors(), (req, res, next) => {
+router.put('/', cors(corsOptions), (req, res, next) => {
 	client.query(
 		'UPDATE employees SET name = $2, code = $3, profession = $4, color = $5, city = $6, branch = $7, assigned = $8 WHERE id = $1',
 		[
@@ -79,7 +79,7 @@ router.put('/', cors(), (req, res, next) => {
 	);
 });
 
-router.delete('/', cors(), (req, res, next) => {
+router.delete('/', cors(corsOptions), (req, res, next) => {
 	client.query(
 		'DELETE FROM employees WHERE id = $1',
 		[req.body.employeeId],

@@ -11,21 +11,21 @@ const employees = require('./routes/employees');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(function(req, res, next) {
-	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-	res.setHeader('Access-Control-Allow-Credentials', 'true');
-	res.setHeader(
-		'Access-Control-Allow-Methods',
-		'GET,HEAD,OPTIONS,POST,PUT,DELETE'
-	);
-	res.setHeader(
-		'Access-Control-Allow-Headers',
-		'Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization'
-	);
-
-	res.setHeader('Cache-Control', 'no-cache');
-	next();
-});
+// app.use(function(req, res, next) {
+// 	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+// 	res.setHeader('Access-Control-Allow-Credentials', 'true');
+// 	res.setHeader(
+// 		'Access-Control-Allow-Methods',
+// 		'GET,HEAD,OPTIONS,POST,PUT,DELETE'
+// 	);
+// 	res.setHeader(
+// 		'Access-Control-Allow-Headers',
+// 		'Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization'
+// 	);
+//
+// 	res.setHeader('Cache-Control', 'no-cache');
+// 	next();
+// });
 
 // app.get('/api/employees', cors(corsOptions), (req, res, next) => {
 // 	console.log('/api/employees');
@@ -34,8 +34,14 @@ app.use(function(req, res, next) {
 // 	res.send(JSON.stringify(employees, null, 2));
 // });
 
+// Cors
+const corsOptions = {
+	origin: 'http://localhost:3000',
+	optionsSuccessStatus: 200
+};
+
 // Routes
-app.use('/api/employees', cors(), employees);
+app.use('/api/employees', cors(corsOptions), employees);
 
 // Serve static in production
 if (process.env.NODE_ENV === 'production') {
