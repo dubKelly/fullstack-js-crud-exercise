@@ -32,20 +32,18 @@ class App extends Component {
 	}
 
 	componentWillMount() {
-		axios
-			.get(`${DOMAIN_NAME}/api/employees`)
-			.then(response => response.json())
-			.then(employees => {
-				let disabled = false;
+		axios.get(`${DOMAIN_NAME}/api/employees`).then(res => {
+			console.log(res);
+			let disabled = false;
 
-				if (window.location.pathname !== '/') {
-					disabled = true;
-				}
+			if (window.location.pathname !== '/') {
+				disabled = true;
+			}
 
-				this.setState({ employees, disabled }, () => {
-					this.getColumns(this.state.employees);
-				});
+			this.setState({ employees, disabled }, () => {
+				this.getColumns(this.state.employees);
 			});
+		});
 	}
 
 	///////////////////////////////////////////////////////////
