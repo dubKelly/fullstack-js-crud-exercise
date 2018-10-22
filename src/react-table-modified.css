@@ -10,7 +10,6 @@
 	-ms-flex-direction: column;
 	flex-direction: column;
 	max-height: calc(100% - 120px);
-	/* border: 1px solid rgba(0, 0, 0, 0.1); */
 }
 .ReactTable * {
 	box-sizing: border-box;

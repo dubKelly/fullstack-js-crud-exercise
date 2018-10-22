@@ -20,11 +20,20 @@ const Tools = props => {
 
 	const component = css({
 		display: 'flex',
-		alignItems: 'center',
 		position: 'absolute',
+		alignItems: 'center',
 		top: '50%',
-		right: '30px',
-		transform: 'translateY(-50%)'
+		left: '15px',
+		transform: 'translate(0, -50%)',
+		opacity: !props.menu ? '0' : '1',
+		zIndex: !props.menu ? '-1' : '3',
+		transition: 'all 0.3s ease-in-out',
+		'@media only screen and (min-width: 500px)': {
+			left: 'calc(100% - 30px)',
+			transform: 'translate(-100%, -50%)',
+			opacity: '1',
+			zIndex: '3'
+		}
 	});
 
 	const svgContainer = css({

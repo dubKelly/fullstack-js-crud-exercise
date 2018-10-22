@@ -185,6 +185,7 @@ class AddEmployee extends Component {
 
 	render() {
 		const { profession, color, city, branch, assigned } = this.state;
+		const text = this.state.pending ? 'Saving...' : 'Save';
 
 		////////////////////////////////////////////////////////
 		////     //        //  ///  //  ///////       //     ///
@@ -202,7 +203,9 @@ class AddEmployee extends Component {
 			position: 'relative',
 			height: 'calc(100% - 90px)',
 			width: 'calc(100% - 60px)',
-			padding: '0 30px'
+			padding: '0 30px',
+			minHeight: '500px',
+			backgroundColor: !this.props.nightMode ? 'transparent' : _dark
 		});
 
 		const form = css({
@@ -312,7 +315,7 @@ class AddEmployee extends Component {
 			display: 'inline-block',
 			borderRadius: '3px',
 			width: '33%',
-			margin: '16px 0 0 8px',
+			margin: '16px 0',
 			padding: '10px 10px',
 			fontSize: '14px',
 			cursor: 'pointer',
@@ -456,7 +459,7 @@ class AddEmployee extends Component {
 						`}
 						value="Save"
 					>
-						Submit
+						{text}
 					</button>
 					<button
 						className={css`
