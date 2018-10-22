@@ -27,6 +27,7 @@
 	},
 	"scripts": {
 		"start": "node server.js",
+		"dev": "concurrently --kill-others \"nodemon server\" \"npm run start:react-app\"",
 		"start:react-app": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test --env=jsdom",

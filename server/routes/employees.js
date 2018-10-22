@@ -11,8 +11,8 @@ const corsOptions = {
 };
 
 const client = new Client({
-	connectionString: connectionString,
-	ssl: true
+	connectionString: connectionString
+	// ssl: true
 });
 
 client.connect(err => {
