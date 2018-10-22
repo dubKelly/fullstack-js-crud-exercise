@@ -34,15 +34,15 @@ class App extends Component {
 	componentWillMount() {
 		axios.get(`${DOMAIN_NAME}/api/employees`).then(res => {
 			console.log(res);
-			let disabled = false;
-
-			if (window.location.pathname !== '/') {
-				disabled = true;
-			}
-
-			this.setState({ employees, disabled }, () => {
-				this.getColumns(this.state.employees);
-			});
+			// let disabled = false;
+			//
+			// if (window.location.pathname !== '/') {
+			// 	disabled = true;
+			// }
+			//
+			// this.setState({ employees, disabled }, () => {
+			// 	this.getColumns(this.state.employees);
+			// });
 		});
 	}
 
